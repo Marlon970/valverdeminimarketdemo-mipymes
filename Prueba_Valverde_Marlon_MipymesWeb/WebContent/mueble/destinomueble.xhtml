@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+
+ <h:form>
+        <p:menubar>
+        <p:menuitem value="Regresar" icon="pi pi-home" action="menu"></p:menuitem>
+
+            <f:facet name="options">
+                <p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+                    icon="pi pi-user">
+                    <p:menuitem value="Perfil" icon="pi pi-cog">
+                    </p:menuitem>
+                      <p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+                    action="#{beanSegLogin.actionCerrarSesion()}">
+                    </p:menuitem>
+                </p:menuButton>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<p:panel>
+
+		<h3>
+			<h:outputText value="Sistema para el Manejo de los Destinos de los  Mueble" />
+		</h3>
+	</p:panel>
+	<div class="ui-g">
+		<div class="ui-g-2">
+			
+		</div>
+		<div class="ui-g-10">
+			<div class="ui-g-6">
+				<h:form>
+					<p:panel header="Nuevo Destino" collapsed="true" toggleable="true">
+						<h:panelGrid columns="2">
+					
+							<h:outputText value=" Eleccion de Mueble" />
+							<p:selectOneMenu value="#{beanDestinoMueble.idmueble}">
+								<f:selectItems value="#{beanDestinoMueble.listamuebles}" var="f"
+									itemLabel="#{f.nombreMueble}" itemValue="#{f.idMueble}"></f:selectItems>
+							</p:selectOneMenu>
+							<h:outputText value="Lugar de Destino" />
+							<p:inputText value="#{beanDestinoMueble.lugardeDestino}" required="true"
+								requiredMessage="Debe Ingresar el Lugar del Destino"></p:inputText>
+							<h:outputText value="Direccion" />
+							<p:inputText value="#{beanDestinoMueble.direccionDestino}" required="true"
+								requiredMessage="Debe Ingresar una Direccion del Destino"></p:inputText>
+
+							<p:commandButton value="Crear Destino" icon="fa fa-save"
+							actionListener="#{beanDestinoMueble.actionListenerCreaDestino()}"
+								update="@form,:formDatos"></p:commandButton>
+
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+			<div class="ui-g-6"></div>
+			<div class="ui-g-12">
+				<h:form id="formDatos">
+					<p:dataTable value="#{beanDestinoMueble.listadestinos}" var="u">
+						<p:column headerText="Id del Destino">
+							<h:outputText  value="#{u.idDestinoMueble}"/>
+						</p:column>
+						<p:column headerText="Nombre del Mueble">
+							<h:outputText value="#{u.valverdemMueble.nombreMueble}"/>
+						</p:column>
+						<p:column headerText="Lugar del Destino">
+							<h:outputText value="#{u.nombreDestino}" />
+						</p:column>
+						<p:column headerText="Direccion">
+							<h:outputText value="#{u.direccionDestino}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							<p:commandButton icon="pi pi-trash" title="Elimiar"
+								actionListener="#{beanDestinoMueble.actionListenerEliminarDestino(u.idDestinoMueble)}" update="@form">
+								<p:confirm header="Confirmacion" message="Desea Eliminar?"
+									icon="fa fa-exclamation-triangle"></p:confirm>
+							</p:commandButton>
+							<p:commandButton icon="pi pi-pencil" title="Editar"
+							actionListener="#{beanDestinoMueble.actionListenerSelecionarDestino(u)}"
+								update=":formEdicion" oncomplete="PF('dlgEdicion').show();"></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</div>
+	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+		modal="true">
+		<h:form id="formEdicion">
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<h:panelGrid columns="2">
+				<h:outputText value="ID Destino" />
+				<h:outputText value="#{beanDestinoMueble.edit.idDestinoMueble}" />
+				<h:outputText value="Nombre Mueble" />
+				<p:selectOneMenu value="#{beanDestinoMueble.idmueble}">
+								<f:selectItems value="#{beanDestinoMueble.listamuebles}" var="f"
+									itemLabel="#{f.nombreMueble}" itemValue="#{f.idMueble}"></f:selectItems>
+			 </p:selectOneMenu>	
+				<h:outputText value="Lugar de Destino del Mueble" />
+				<p:inputText value="#{beanDestinoMueble.edit.nombreDestino}" required="true"
+					requiredMessage="Debe Ingresar un Destino del MUeble"></p:inputText>
+						<h:outputText value="Direccion de Destino del Mueble" />
+				<p:inputText value="#{beanDestinoMueble.edit.direccionDestino}" required="true"
+					requiredMessage="Debe Ingresar un Direccion del MUeble"></p:inputText>
+				<p:commandButton value="Actualizar" icon="fa fa-save"
+					update="@form,:formDatos" actionListener="#{beanDestinoMueble.actionListenerActualizarDestino()}" ></p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="SI" type="button"
+			styleClass="ui-confirmdialog-yes" icon="fa fa-chek" />
+		<p:commandButton value="NO" type="button"
+			styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+	</p:confirmDialog>
+
+</body> 
+</html>

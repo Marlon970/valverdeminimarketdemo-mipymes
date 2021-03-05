@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+      
+      <f:metadata>
+
+<f:event listener="#{beanSegLogin.actionverificarLogin()}" type="preRenderView"></f:event>>
+
+</f:metadata>
+
+<h:head></h:head> 
+<body> 
+
+   <h:form>
+        <p:menubar>
+        <p:menuitem value="Regresar" icon="pi pi-home" action="menu"></p:menuitem>
+
+            <f:facet name="options">
+                <p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+                    icon="pi pi-user">
+                    <p:menuitem value="Perfil" icon="pi pi-cog">
+                    </p:menuitem>
+                      <p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+                    action="#{beanSegLogin.actionCerrarSesion()}">
+                    </p:menuitem>
+                </p:menuButton>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+
+<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<p:panel>
+
+		<h3>
+			<h:outputText value="Sistema para el Manejo de Mueble" />
+		</h3>
+	</p:panel>
+	<div class="ui-g">
+		<div class="ui-g-2">
+			<h:form>
+
+			</h:form>
+		</div>
+		<div class="ui-g-10">
+			<div class="ui-g-6">
+				<h:form>
+					<p:panel header="Nuevo Mueble" collapsed="true"
+						toggleable="true">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Mueble" />
+							<p:inputText value="#{beanMueble1.nombreMueble}" required="true"
+								requiredMessage="Debe Ingresar un nombre del Mueble"></p:inputText>
+							<h:outputText value="Material del Mueble" />
+							<p:inputText value="#{beanMueble1.materialMueble}" required="true"
+								requiredMessage="Debe Ingresar un nombre al material del Mueble"></p:inputText>
+							<h:outputText value="Precio del Mueble" />
+							<p:spinner value="#{beanMueble1.precioMueble}" min="0.01" stepFactor="0.01"/>  
+							<h:outputText value="Stock en el Mueble" />
+							 <p:spinner value="#{beanMueble1.stockMueble}" min="1" max="1000" /> 
+							<p:commandButton
+								actionListener="#{beanMueble1.actionListenerCrearMueble()}"
+								value="Crear Mueble" icon="fa fa-save"
+								update="@form,:formDatos"></p:commandButton>
+
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+			<div class="ui-g-6"></div>
+			<div class="ui-g-12">
+				<h:form id="formDatos">
+					<p:dataTable value="#{beanMueble1.listamuebles}" var="e">
+						<p:column headerText="Id Mueble">
+							<h:outputText value="#{e.idMueble}" />
+						</p:column>
+						<p:column headerText="Nombre del Mueble">
+							<h:outputText value="#{e.nombreMueble}" />
+						</p:column>
+						<p:column headerText="Material del Mueble">
+							<h:outputText value="#{e.materialMueble}" />
+						</p:column>
+						<p:column headerText="Precio del Mueble">
+							<h:outputText value="#{e.precioMaterial}" />
+						</p:column>
+						<p:column headerText="Stock del Mueble">
+							<h:outputText value="#{e.stockMueble}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							<p:commandButton icon="pi pi-trash" title="Elimiar"
+								actionListener="#{beanMueble1.actionListenerEliminarMueble(e.idMueble)}" update="@form">
+								<p:confirm header="Confirmacion" message="Desea Eliminar?"
+									icon="fa fa-exclamation-triangle"></p:confirm>
+							</p:commandButton>
+							<p:commandButton icon="pi pi-pencil" title="Editar"
+								actionListener="#{beanMueble1.actionListenerSelecionarMUeble(e)}"
+								update=":formEdicion" oncomplete="PF('dlgEdicion').show();"></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</div>
+	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+		modal="true">
+		<h:form id="formEdicion">
+			<p:messages>
+				<p:autoUpdate />
+			</p:messages>
+			<h:panelGrid columns="2">
+				<h:outputText value="Id Mueble" />
+				<h:outputText value="#{beanMueble1.edit.idMueble}" />
+				<h:outputText value="Nombre Mueble" />
+				<p:inputText  value="#{beanMueble1.edit.nombreMueble}" required="true"
+					requiredMessage="Debe Ingresar un Nombre al Mueble "></p:inputText>
+				<h:outputText value="Material del Mueble" />
+				<p:inputText value="#{beanMueble1.edit.materialMueble}" required="true"
+					requiredMessage="Debe Ingresar un Material al Mueble"></p:inputText>
+				<h:outputText value="Valor del Mueble " />
+				<p:spinner value="#{beanMueble1.precioMueble}" min="0.01" stepFactor="0.01"/> 
+				<h:outputText value="Stock de Mueble " />
+				 <p:spinner value="#{beanMueble1.stockMueble}" min="1" max="1000" /> 
+				<p:commandButton value="Actualizar" icon="fa fa-save"
+				update="@form,:formDatos"
+				actionListener="#{beanMueble1.actionListenerActualizarMueble()}"></p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="SI" type="button"
+			styleClass="ui-confirmdialog-yes" icon="fa fa-chek" />
+		<p:commandButton value="NO" type="button"
+			styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+	</p:confirmDialog>
+
+</body> 
+</html>

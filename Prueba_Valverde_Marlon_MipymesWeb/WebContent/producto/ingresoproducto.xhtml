@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"> 
+          <f:metadata>
+
+<f:event listener="#{beanSegLogin.actionverificarLogin()}" type="preRenderView"></f:event>>
+
+</f:metadata>
+
+<h:head></h:head> 
+<body> 
+
+
+   <h:form>
+        <p:menubar>
+        <p:menuitem value="Regresar" icon="pi pi-home" action="menu"></p:menuitem>
+
+            <f:facet name="options">
+                <p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+                    icon="pi pi-user">
+                    <p:menuitem value="Perfil" icon="pi pi-cog">
+                    </p:menuitem>
+                      <p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+                    action="#{beanSegLogin.actionCerrarSesion()}">
+                    </p:menuitem>
+                </p:menuButton>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+    
+<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<p:panel>
+
+		<h3>
+			<h:outputText value="Sistema para el Manejo de Productos" />
+		</h3>
+	</p:panel>
+	
+	<div class="ui-g">
+		<div class="ui-g-2">
+			<h:form>
+
+			</h:form>
+		</div>
+		<div class="ui-g-10">
+			<div class="ui-g-6">
+				<h:form>
+					<p:panel header="Nuevo Producto" collapsed="true"
+						toggleable="true">
+						<h:panelGrid columns="2">
+							<h:outputText value="Nombre del Producto" />
+							<p:inputText value="#{beanProducto.nombreproducto}" required="true"
+								requiredMessage="Debe Ingresar un nombre del producto"></p:inputText>
+							<h:outputText value="Precio del Producto" />
+							<p:spinner value="#{beanProducto.precioproducto}" min="0.01" stepFactor="0.01"/>  
+							<p:commandButton
+								actionListener="#{beanProducto.actionListenerCrearProducto()}"
+								value="Crear Producto" icon="fa fa-save"
+								update="@form,:formDatos"></p:commandButton>
+
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+			<div class="ui-g-6"></div>
+			<div class="ui-g-12">
+				<h:form id="formDatos">
+					<p:dataTable value="#{beanProducto.listaproducto}" var="e">
+						<p:column headerText="Id Producto">
+							<h:outputText value="#{e.idInvProducto}" />
+						</p:column>
+						<p:column headerText="Nombre del Producto">
+							<h:outputText value="#{e.nombreProducto}" />
+						</p:column>
+						<p:column headerText="Precio del Producto">
+							<h:outputText value="#{e.precioProducto}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							<p:commandButton icon="pi pi-trash" title="Elimiar"
+								 update="@form">
+								<p:confirm header="Confirmacion" message="Desea Eliminar?"
+									icon="fa fa-exclamation-triangle"></p:confirm>
+							</p:commandButton>
+							<p:commandButton icon="pi pi-pencil" title="Editar"
+								
+							></p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</div>
+
+</body> 
+</html>

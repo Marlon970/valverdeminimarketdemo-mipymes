@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Prueba_Valverde_Marlon_MipymesEJB">
+        <wb-resource deploy-path="/" source-path="/ejbModule" tag="defaultRootSource"/>
+        <property name="java-output-path" value="/Prueba_Valverde_Marlon_MipymesEJB/build/classes"/>
+    </wb-module>
+</project-modules>
